@@ -1,0 +1,39 @@
+ // Query record based on email
+   // Equivalent JPQL: select c from Customer c where c.email=?
+   Customer findByEmail(String email);
+  
+   // Query records based on LastName is like the provided last name
+   // select c from Customer c where c.lastName LIKE CONCAT('%',?,'%')
+   List<Customer> findByLastNameLike(String lastname);
+
+   // Query records based on email or contact number
+   // select c from Customer c where c.email=? or c.contactNumber=?  
+   List<Customer> findByEmailOrContactNumber(String email, String number);
+
+   // Query records based on email or contact number
+   // select c from Customer c where c.email=? or c.contactNumber=? 
+    List<Customer> findByEmailOrContactNumber(String email, String number);
+
+   // Query records based on FirstName and city details. Following query creates the property traversal for city as Customer.address.city
+   // select c from Customer c  where c.firstName=? and c.address.city=?
+    List<Customer>  findByFirstNameAndAddress_City(String fname, String city);
+ 
+   // Query records based on last name and order by ascending based on first name
+   // select c from Customer c where c.lastName=? order by c.firstName
+   List<Customer> findByLastNameOrderByFirstNameAsc(String lastname);
+
+   // Query records based on specified list of cities
+   //select c from Customer c where c.address.city in ?1
+   List<Customer> findByAddress_CityIn(Collection<String> cities);
+
+   // Query records based if customer is active
+   //select c from Customer c where c.active = true
+   List<Customer> findByActiveTrue();
+
+   // Query records based on creditPoints >= specified value 
+   //select c from Customer c where c.creditPoints >=?1
+   List<Customer> findByCreditPointsGreaterThanEqual(int points) ;
+
+   // Query records based on creditpoints between specified values
+   //select c from Customer c where c.creditPoints >=?1
+   List<Customer> findByCreditPointsBetween(int point1, int point2)
