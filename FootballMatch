@@ -1,0 +1,90 @@
+public class FootballMatch {
+
+	
+	public static void main(String[] args) throws InterruptedException {
+		
+		int teamAGoals=0; //Team A goal counter
+		int teamBGoals=0; //Team B goal counter
+	
+		FootballMatch footballMatch=new FootballMatch(); 
+		
+		//five penalty shootout
+		for(int i=0;i<5;i++)
+		{
+			teamAGoals+=footballMatch.penalty();
+			Thread.sleep(1000); //adding 1 second delay between each penalty kick
+			teamBGoals+=footballMatch.penalty();
+		}
+		
+		//printing goals after shootout
+		System.out.println("Team A scored="+teamAGoals);
+		System.out.println("Team B scored="+teamBGoals);
+		
+		//calculating and printing result
+		String result=footballMatch.calculateResult(teamAGoals, teamBGoals);
+		System.out.println(result);
+		
+		//if there is tie,starting "sudden Death"
+		if(result.equals("tie!!"))
+		{
+			System.out.println("sudden death will start");
+			//resetting goals counter
+			teamAGoals=0;
+			teamBGoals=0;
+			footballMatch.suddenDeath(teamAGoals, teamBGoals);
+		}
+	
+	}
+	
+	public void suddenDeath(int teamAGoals, int teamBGoals) throws InterruptedException
+	{
+		//termination condition for recursion
+		if(teamAGoals!=teamBGoals)
+		{
+			//calculating and printing result
+			String result=calculateResult(teamAGoals, teamBGoals); 
+			System.out.println(result);
+			return;
+		}
+		
+		int suddenDeathCounter=1; //sudden death round counter
+		
+		//penalty shootout
+		teamAGoals=this.penalty();
+		Thread.sleep(1000); //adding 1 second delay between each penalty kick
+		teamBGoals=this.penalty();
+		
+		//printing result after each sudden death round
+		System.out.println("Team A scored in sudden death round "+suddenDeathCounter+"="+teamAGoals);
+		System.out.println("Team A scored in sudden death round "+suddenDeathCounter+"="+teamAGoals);
+		System.out.println("-----------------------------------------");
+		
+		suddenDeathCounter++; //increasing the counter after every round.
+		
+		suddenDeath(teamAGoals, teamBGoals); //calling suddenDeath again, either to print result of previous round or if it's tie then having a second round.
+	}
+	
+	//this method calculate result bases on number of goals each team scored
+	public String calculateResult(int teamAGoals, int teamBGoals)
+	{
+		if(teamAGoals-teamBGoals>0)
+		{
+			return "TEAM A wins!!";
+		}
+		else if(teamAGoals-teamBGoals<0)
+		{
+			return "TEAM b wins!!";
+		}
+		else
+		{
+			return "tie!!";
+		}
+	}
+	
+	//this method generate an integer which can be either 1 or 0. 1=Scored,0=Miss.
+	//think this method as kicking a football, either you score or you miss.
+	public int penalty()
+	{
+		return Math.random() > 0.5 ? 1 : 0;
+	}
+}
